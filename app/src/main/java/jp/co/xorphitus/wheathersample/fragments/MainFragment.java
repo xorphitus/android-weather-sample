@@ -36,7 +36,7 @@ public class MainFragment extends Fragment {
 
     weather.enqueue(new Callback<Weather>() {
       @Override public void onResponse(Call<Weather> call, Response<Weather> response) {
-        final String title = response.body().title;
+        final String title = response.body().forecasts.get(0).telop;
         getActivity().runOnUiThread(new Runnable() {
           @Override public void run() {
             TextView textView = (TextView) view.findViewById(R.id.weather_text);
