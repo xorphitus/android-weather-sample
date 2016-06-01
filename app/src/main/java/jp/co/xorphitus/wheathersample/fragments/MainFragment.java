@@ -12,6 +12,7 @@ import com.github.aurae.retrofit2.LoganSquareConverterFactory;
 import jp.co.xorphitus.wheathersample.R;
 import jp.co.xorphitus.wheathersample.models.Weather;
 import jp.co.xorphitus.wheathersample.network.LivedoorWeatherService;
+import jp.co.xorphitus.wheathersample.network.LivedoorWeatherServiceFactory;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -23,13 +24,7 @@ import retrofit2.Retrofit;
 public class MainFragment extends Fragment {
   @Nullable @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
-
-    Retrofit retrofit = new Retrofit.Builder()
-        .baseUrl("http://weather.livedoor.com/")
-        .addConverterFactory(LoganSquareConverterFactory.create())
-        .build();
-
-    LivedoorWeatherService service = retrofit.create(LivedoorWeatherService.class);
+    LivedoorWeatherService service = LivedoorWeatherServiceFactory.create();
     Call<Weather> weather = service.find();
 
     final View view = inflater.inflate(R.layout.fragment_main, container, false);
