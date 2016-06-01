@@ -7,8 +7,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import com.bluelinelabs.logansquare.LoganSquare;
 import java.io.IOException;
 import jp.co.xorphitus.wheathersample.R;
+import jp.co.xorphitus.wheathersample.models.Weather;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
@@ -34,11 +36,12 @@ public class MainFragment extends Fragment {
       }
 
       @Override public void onResponse(Call call, Response response) throws IOException {
-        final String text = response.body().string();
+        final String jsonText = response.body().string();
+        final Weather weather = LoganSquare.parse(jsonText, Weather.class);
 
         getActivity().runOnUiThread(new Runnable() {
           @Override public void run() {
-            textView.setText(text);
+            textView.setText(weather.forecasts.get(0).telop);
           }
         });
       }
