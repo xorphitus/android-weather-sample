@@ -15,14 +15,12 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.bumptech.glide.Glide;
-import java.util.ArrayList;
 import java.util.List;
 import jp.co.xorphitus.wheathersample.R;
 import jp.co.xorphitus.wheathersample.models.Weather;
 import jp.co.xorphitus.wheathersample.models.weather.Forecast;
 import jp.co.xorphitus.wheathersample.network.LivedoorWeatherService;
 import jp.co.xorphitus.wheathersample.network.LivedoorWeatherServiceFactory;
-import org.w3c.dom.Text;
 import rx.Observable;
 import rx.Observer;
 import rx.Subscription;
@@ -34,7 +32,7 @@ import timber.log.Timber;
  * メインコンテンツ表示用
  */
 public class MainFragment extends Fragment {
-  private Subscription weatherSubscription;
+  private Subscription mWeatherSubscription;
 
   @Nullable @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
@@ -46,7 +44,7 @@ public class MainFragment extends Fragment {
     View view = inflater.inflate(R.layout.fragment_main, container, false);
     final ViewHolder viewHolder = new ViewHolder(view);
 
-    weatherSubscription = weather.observeOn(AndroidSchedulers.mainThread())
+    mWeatherSubscription = weather.observeOn(AndroidSchedulers.mainThread())
         .subscribeOn(Schedulers.newThread())
         .subscribe(new Observer<Weather>() {
           @Override public void onCompleted() {
@@ -73,7 +71,7 @@ public class MainFragment extends Fragment {
   }
 
   @Override public void onDestroy() {
-    weatherSubscription.unsubscribe();
+    mWeatherSubscription.unsubscribe();
   }
 
   static class ViewHolder {
