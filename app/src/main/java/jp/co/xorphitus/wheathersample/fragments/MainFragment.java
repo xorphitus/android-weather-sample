@@ -9,10 +9,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import com.bumptech.glide.Glide;
 import java.util.ArrayList;
 import java.util.List;
 import jp.co.xorphitus.wheathersample.R;
@@ -98,8 +100,16 @@ public class MainFragment extends Fragment {
       }
 
       Forecast forecast = getItem(position);
+
       holder.telop.setText(forecast.telop);
-      holder.dateLabel.setText(forecast.dateLabel + "の天気 / ");
+      holder.dateLabel.setText(forecast.dateLabel + "の天気 (" + forecast.date + ")");
+
+      Glide.with(getContext())
+          .load(forecast.image.url)
+          .override(forecast.image.width, forecast.image.height)
+          .centerCrop()
+          .crossFade()
+          .into(holder.image);
 
       return convertView;
     }
@@ -107,6 +117,7 @@ public class MainFragment extends Fragment {
     static class ForecastViewHolder {
       @BindView(R.id.telop) TextView telop;
       @BindView(R.id.dateLabel) TextView dateLabel;
+      @BindView(R.id.image) ImageView image;
 
       public ForecastViewHolder(View view) {
         ButterKnife.bind(this, view);
