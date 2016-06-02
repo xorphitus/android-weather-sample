@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import jp.co.xorphitus.wheathersample.R;
 import jp.co.xorphitus.wheathersample.models.Weather;
 import jp.co.xorphitus.wheathersample.network.LivedoorWeatherService;
@@ -29,7 +31,8 @@ public class MainFragment extends Fragment {
     LivedoorWeatherService service = LivedoorWeatherServiceFactory.create();
     Observable<Weather> weather = service.find();
 
-    final View view = inflater.inflate(R.layout.fragment_main, container, false);
+    View view = inflater.inflate(R.layout.fragment_main, container, false);
+    final ViewHolder viewHolder = new ViewHolder(view);
 
     weatherSubscription = weather.observeOn(AndroidSchedulers.mainThread())
         .subscribeOn(Schedulers.newThread())
@@ -43,8 +46,7 @@ public class MainFragment extends Fragment {
           }
 
           @Override public void onNext(Weather weather) {
-            TextView textView = (TextView) view.findViewById(R.id.weather_text);
-            textView.setText(weather.title);
+            viewHolder.weatherText.setText(weather.title);
           }
         });
 
@@ -53,5 +55,14 @@ public class MainFragment extends Fragment {
 
   @Override public void onDestroy() {
     weatherSubscription.unsubscribe();
+  }
+
+  static class ViewHolder {
+    @BindView(R.id.weather_text)
+    TextView weatherText;
+
+    public ViewHolder(View view) {
+      ButterKnife.bind(this, view);
+    }
   }
 }
