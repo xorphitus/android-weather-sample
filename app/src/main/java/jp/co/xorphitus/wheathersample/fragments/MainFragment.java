@@ -16,6 +16,7 @@ import rx.Observer;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import timber.log.Timber;
 
 /**
  * メインコンテンツ表示用
@@ -38,7 +39,7 @@ public class MainFragment extends Fragment {
           }
 
           @Override public void onError(Throwable e) {
-            e.printStackTrace();
+            Timber.d(e, "error on weather api call");
           }
 
           @Override public void onNext(Weather weather) {
