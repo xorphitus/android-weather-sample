@@ -1,6 +1,7 @@
 package jp.co.xorphitus.wheathersample.managers;
 
 import android.app.Application;
+import com.facebook.stetho.Stetho;
 import timber.log.Timber;
 
 /**
@@ -11,5 +12,6 @@ public class WeatherApplication extends Application {
     super.onCreate();
 
     Timber.plant(new Timber.DebugTree());
+    Stetho.initializeWithDefaults(this);
   }
 }
