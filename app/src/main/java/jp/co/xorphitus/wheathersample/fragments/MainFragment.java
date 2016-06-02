@@ -60,8 +60,12 @@ public class MainFragment extends Fragment {
           @Override public void onNext(Weather weather) {
             viewHolder.weatherText.setText(weather.title);
 
-            ForecastAdapter adapter = new ForecastAdapter(activity, android.R.layout.simple_list_item_1, weather.forecasts);
+            ForecastAdapter adapter =
+                new ForecastAdapter(activity, android.R.layout.simple_list_item_1,
+                    weather.forecasts);
             viewHolder.forecasts.setAdapter(adapter);
+
+            viewHolder.descriptionText.setText(weather.description.text);
           }
         });
 
@@ -73,11 +77,11 @@ public class MainFragment extends Fragment {
   }
 
   static class ViewHolder {
-    @BindView(R.id.weather_text)
-    TextView weatherText;
+    @BindView(R.id.weather_text) TextView weatherText;
 
-    @BindView(R.id.forecasts)
-    ListView forecasts;
+    @BindView(R.id.forecasts) ListView forecasts;
+
+    @BindView(R.id.description_text) TextView descriptionText;
 
     public ViewHolder(View view) {
       ButterKnife.bind(this, view);
@@ -94,7 +98,8 @@ public class MainFragment extends Fragment {
       if (convertView != null) {
         holder = (ForecastViewHolder) convertView.getTag();
       } else {
-        convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_forecast, parent, false);
+        convertView =
+            LayoutInflater.from(getContext()).inflate(R.layout.item_forecast, parent, false);
         holder = new ForecastViewHolder(convertView);
         convertView.setTag(holder);
       }
